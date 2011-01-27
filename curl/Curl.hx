@@ -26,7 +26,7 @@ import neko.Lib;
 	A simple binding of the famous library libCurl for haXe
 **/
 class Curl {
-	var curl_handle;
+	var curl_handle:Dynamic;
 	//	var body_callback		: String -> Void;
 	//	var header_callback		: String -> Void;
 	//	var progress_callback	: String -> Void;
@@ -35,14 +35,16 @@ class Curl {
 		curl_handle = newCurl();
 		if( url != null ) {
 			set_url( url );
-		)
+		}
 		setup_callbacks();
+	}
+	public function action() {
+		return makeRequest( curl_handle );
 	}
 	public function set_url( url:String ) {
 		setUrl( curl_handle, Lib.haxeToNeko( url ));
 	}
 	public function get_data() {
-		
 		return body;
 	}
 	
@@ -70,9 +72,11 @@ class Curl {
 		Do NOT use this if your application fetches more 
 		than a very 'small' amount of files!
 	**/
-	public static function simple_fetch( url )
+	public static function simple_fetch( url ) : String
 	{	// creates a new instance and sets it up for one download.
 		var curl = new Curl( url );
+		curl.action();
+		return curl.get_data();
 	}
 	
 	// Import of functions exposed by the ndll \\

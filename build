@@ -1,0 +1,4 @@
+#!/bin/sh
+gcc	-c -fPIC curl_wrap.c -o curlw.o
+gcc	-lcurl -shared -Wl,-soname,libcurl_wrap.so -o libcurl_wrap.so curlw.o
+mv	libcurl_wrap.so curl_wrap.ndll
