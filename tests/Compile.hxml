@@ -1,0 +1,3 @@
+-neko run_tests.n
+-main TestCurl
+-debug

@@ -1,4 +1,97 @@
-#!/bin/sh
-gcc	-c -fPIC curl_wrap.c -o curlw.o
-gcc	-lcurl -shared -Wl,-soname,libcurl_wrap.so -o libcurl_wrap.so curlw.o
-mv	libcurl_wrap.so curl_wrap.ndll
+#!/bin/bash
+#	hxCurl version 0.1  ---  a binding of libCurl for haXe.
+#	Copyright ©2011  Frank M. Eriksson  < http://knarf.se/ >
+#
+#	This software is free software: you can redistribute it and/or modify
+#	it under the terms of the Perl Foundation Artistic License 2.0 and 
+#	under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+#	(at your option) any later version.
+#
+#	This software is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
+#
+#	You should have received a copy of the GNU General Public License and 
+#	Perl Foundation Artistic License in a file named ``COPYING'' along 
+#	with this software.  If not, see <http://www.gnu.org/licenses/> and
+#	<http://opensource.org/licenses/artistic-license-2.0>.
+#
+
+system=`uname`
+targetd="dist/release"
+
+mkdir -p dist
+
+build_ndll()
+{	# Build the neko ndll for the current platform
+	echo "→ Building hxCurl"
+	mkdir -p "ndll/$system"
+	mkdir -p tmp
+	gcc -c -fPIC ndll/Source/curl_wrap.c -o tmp/curlw.o
+	gcc -lcurl -shared -Wl,-soname,libcurl_wrap.so \
+			-o tmp/libcurl_wrap.so tmp/curlw.o
+	sh -c "mv tmp/libcurl_wrap.so tmp/$system/curl_wrap.ndll" || exit 1
+	echo "Successfully created Neko FFI module 'curl_wrap.ndll'"
+}
+
+build_tools()
+{	# build some useful tools
+	haxe tools/Builder/Compile.hxml
+}
+
+run_tests()
+{	# 
+	echo "→ Building Unittests"
+	cd tests
+		haxe Compile.hxml
+		neko run_tests.n
+	cd ..
+}
+
+make_release()
+{	# 
+	echo "→ Assembling the 'release.zip' package"
+	rm -rf $targetd $targetd.zip
+	mkdir -p $targetd
+	generate_documentation
+	# FIXME!
+}
+
+# 
+# 
+generate_documentation()
+{	# Invoke gendoc script
+	#sh -c "./gendoc"
+	echo "nop"
+}
+
+make_clean()
+{	# Invoke clean script
+	sh -c "./clean"
+}
+
+if [ $# -eq 0 ] || [ $1 == "all" ]
+then
+	build_ndll
+	run_tests
+	make_release
+elif [ $1 == "test" ]
+then
+	run_tests
+elif [ $1 == "doc" ]
+then
+	generate_documentation
+elif [ $1 == "release" ]
+then
+	make_release
+elif [ $1 == "clean" ]
+then
+	make_clean
+else
+	echo " → hxCurl Build script -- Usage: "
+	echo "	./build [all|test|doc|release|clean] "
+	echo ""
+fi
+
