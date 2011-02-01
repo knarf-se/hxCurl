@@ -19,7 +19,7 @@
 	<http://opensource.org/licenses/artistic-license-2.0>.
 ***/
 
-package ;
+package curl;
 import neko.Lib;
 
 /**
@@ -30,6 +30,8 @@ class Curl {
 	//	var body_callback		: String -> Void;
 	//	var header_callback		: String -> Void;
 	//	var progress_callback	: String -> Void;
+	var agent(default,set_ua)	: String;
+	var url(default,set_url)	: String;
 	
 	public function new( ?url ) {
 		curl_handle = newCurl();
@@ -41,8 +43,13 @@ class Curl {
 	public function action() {
 		return makeRequest( curl_handle );
 	}
-	public function set_url( url:String ) {
+	function set_url( url:String ) {
 		setUrl( curl_handle, Lib.haxeToNeko( url ));
+		return url;
+	}
+	function set_ua( agent:String ) {
+		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
+		return agent;
 	}
 	public function get_data() {
 		return body;
@@ -75,6 +82,7 @@ class Curl {
 	public static function simple_fetch( url ) : String
 	{	// creates a new instance and sets it up for one download.
 		var curl = new Curl( url );
+		curl.agent = "test/0.1";
 		curl.action();
 		return curl.get_data();
 	}

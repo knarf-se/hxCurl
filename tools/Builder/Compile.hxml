@@ -1,3 +1,4 @@
 -neko ../../run.n
+-cp ../../curl
 -main Build
 -debug

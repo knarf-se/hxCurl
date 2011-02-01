@@ -27,7 +27,7 @@ mkdir -p dist
 build_ndll()
 {	# Build the neko ndll for the current platform
 	echo "→ Building hxCurl"
-	mkdir -p "ndll/$system"
+	mkdir -p "tmp/$system"
 	mkdir -p tmp
 	gcc -c -fPIC ndll/Source/curl_wrap.c -o tmp/curlw.o
 	gcc -lcurl -shared -Wl,-soname,libcurl_wrap.so \
@@ -46,6 +46,8 @@ run_tests()
 	echo "→ Building Unittests"
 	cd tests
 		haxe Compile.hxml
+	cd ../tmp
+		cp $system/curl_wrap.ndll curl_wrap.ndll
 		neko run_tests.n
 	cd ..
 }

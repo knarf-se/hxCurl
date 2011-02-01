@@ -1,3 +1,4 @@
--neko run_tests.n
--main TestCurl
+-neko ../tmp/run_tests.n
+-cp ../
+-main Test
 -debug
