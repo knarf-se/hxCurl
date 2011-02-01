@@ -1,0 +1,10 @@
+<project name="curl" url="https://www.ohloh.net/p/hxCurl" license="GPL">
+	<user name="knarf"/>
+	<tag v="neko"/>
+	<tag v="api"/>
+	<tag v="network"/>
+	<tag v="client"/>
+	<tag v="curl"/>
+   <description>A binding of the famous libCurl library for haXe.</description>
+	<version name="0.1">Initial release → Basic File get by URL.</version>
+</project>

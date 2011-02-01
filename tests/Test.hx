@@ -1,10 +1,13 @@
-
+/*
+	Testing of the hxCurl functionality
+*/
 import curl.Curl;
 import neko.Lib;
 
 class Test {
 	
 	public static function main() {
+		// Write a welcome message that explains what this is doing
 		Lib.println( "Theese tests requires a working internet connection." );
 		Lib.println("And that the servers it tests agains is up and running.");
 		Lib.println("\nIdeally you should test against a local server that " + 
@@ -27,10 +30,13 @@ class Test {
 class TestCurl extends haxe.unit.TestCase {
 	// You might want to change this
 	static var xmp_url = "http://git.knarf.se/hxcurltestfile";
-	
+	/**
+		Test the [Curl.simple_fetch] function
+	**/
 	function testSimpleFetch() {
 		var text = Curl.simple_fetch( xmp_url );
 		assertTrue( text.length > 32 );
+		// You might want to encomment this line depending on what is fetched.
 		Lib.println( text );
 	}
 }
