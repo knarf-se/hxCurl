@@ -9,7 +9,7 @@ class Test {
 	public static function main() {
 		// Write a welcome message that explains what this is doing
 		Lib.println( "Theese tests requires a working internet connection." );
-		Lib.println("And that the servers it tests agains is up and running.");
+		Lib.println("And that the servers it tests against is up and running.");
 		Lib.println("\nIdeally you should test against a local server that " + 
 				"is under your control. \nYou could also add a row to the " + 
 				"`\033[1;32m/etc/hosts\033[0m' file if you want. " );

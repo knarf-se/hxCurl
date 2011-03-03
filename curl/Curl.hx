@@ -30,16 +30,40 @@ class Curl {
 	//	var body_callback		: String -> Void;
 	//	var header_callback		: String -> Void;
 	//	var progress_callback	: String -> Void;
-	var agent(default,set_ua)	: String;
-	var url(default,set_url)	: String;
 	
-	public function new( ?url ) {
+	/**
+		The useragent that you will indentify your application as.
+	**/
+	public var agent(default,set_ua)	: String;
+	/**
+		Set a new URL to use.
+	**/
+	public var url(default,set_url)	: String;
+	//var async
+	
+	/**
+		Creates a new Curl object, possible with URL and async mode set.
+	**/
+	public function new( ?url, ?async:Bool ) {
 		curl_handle = newCurl();
 		if( url != null ) {
 			set_url( url );
 		}
 		setup_callbacks();
 	}
+	public dynamic function onData( data : String ) : Void {
+		
+	}
+	/**
+		Should be replaced with error handling code, the default one throws an
+		Exception.
+	**/
+	public dynamic function onError( msg : String ) : Void {
+		throw msg;
+	}
+	/**
+		Make the actual request that you have set up.
+	**/
 	public function action() {
 		return makeRequest( curl_handle );
 	}

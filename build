@@ -58,10 +58,11 @@ make_release()
 	rm -rf $targetd $targetd.zip
 	mkdir -p $targetd
 	generate_documentation
-	mkdir -p $targetd/$system
+	mkdir -p $targetd/ndll/
 	mkdir -p $targetd/Source
 	cp -r tmp/$system $targetd/ndll/
 	cp -r ndll/Source $targetd/
+	cp -r curl $targetd/
 	cp haxelib.xml $targetd/haxelib.xml
 	cd dist
 		7z a -tzip release.zip release > 7z.log
@@ -85,7 +86,7 @@ make_clean()
 if [ $# -eq 0 ] || [ $1 == "all" ]
 then
 	build_ndll
-	#run_tests
+	run_tests
 	make_release
 elif [ $1 == "test" ]
 then

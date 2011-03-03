@@ -1,4 +1,5 @@
 -neko ../tmp/run_tests.n
 -cp ../
+#-lib curl
 -main Test
 -debug

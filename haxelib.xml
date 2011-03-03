@@ -6,5 +6,5 @@
 	<tag v="client"/>
 	<tag v="curl"/>
    <description>A binding of the famous libCurl library for haXe.</description>
-	<version name="0.1">Initial release → Basic File get by URL.</version>
+	<version name="0.1.1">Initial release → Basic File get by URL.</version>
 </project>
