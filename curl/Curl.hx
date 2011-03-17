@@ -3,7 +3,7 @@
 	Copyright ©2011  Frank M. Eriksson  < http://knarf.se/ >
 
 	This software is free software: you can redistribute it and/or modify
-	it under the terms of the Perl Foundation Artistic License 2.0 and 
+	it under the terms of the Perl Foundation Artistic License 2.0 and
 	under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
@@ -13,8 +13,8 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License and 
-	the Perl Foundation Artistic License in a file named ``COPYING'' along 
+	You should have received a copy of the GNU General Public License and
+	the Perl Foundation Artistic License in a file named ``COPYING'' along
 	with this software.  If not, see <http://www.gnu.org/licenses/> and
 	<http://opensource.org/licenses/artistic-license-2.0>.
 ***/
@@ -30,7 +30,7 @@ class Curl {
 	//	var body_callback		: String -> Void;
 	//	var header_callback		: String -> Void;
 	//	var progress_callback	: String -> Void;
-	
+
 	/**
 		The useragent that you will indentify your application as.
 	**/
@@ -40,7 +40,7 @@ class Curl {
 	**/
 	public var url(default,set_url)	: String;
 	//var async
-	
+
 	/**
 		Creates a new Curl object, possible with URL and async mode set.
 	**/
@@ -52,7 +52,7 @@ class Curl {
 		setup_callbacks();
 	}
 	public dynamic function onData( data : String ) : Void {
-		
+
 	}
 	/**
 		Should be replaced with error handling code, the default one throws an
@@ -71,6 +71,9 @@ class Curl {
 		setUrl( curl_handle, Lib.haxeToNeko( url ));
 		return url;
 	}
+	public function setPostData( data:String ) : Void {
+		setPostdata( curl_handle, Lib.haxeToNeko( data ));
+	}
 	function set_ua( agent:String ) {
 		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
 		return agent;
@@ -78,29 +81,29 @@ class Curl {
 	public function get_data() {
 		return body;
 	}
-	
+
 	//	===	===	===
 	function setup_callbacks() {
-		setWriteCallbackHandler( curl_handle, 
+		setWriteCallbackHandler( curl_handle,
 				header_callback, body_callback, this );
 		head = "";
 		body = "";
 	}
-	
+
 	var head: String;
 	static function header_callback( self, data ) {
 		self.head += Lib.nekoToHaxe(data);
 	}
-	
+
 	var body: String;
 	static function body_callback( self, data ) {
 		self.body += Lib.nekoToHaxe(data);
 	}
 	/**
-		Do a simple fetch of a single file by it's URL, good to use 
+		Do a simple fetch of a single file by it's URL, good to use
 		if your application only fetches a file or two.
-		
-		Do NOT use this if your application fetches more 
+
+		Do NOT use this if your application fetches more
 		than a very 'small' amount of files!
 	**/
 	public static function simple_fetch( url ) : String
@@ -110,16 +113,18 @@ class Curl {
 		curl.action();
 		return curl.get_data();
 	}
-	
+
 	// Import of functions exposed by the ndll \\
 	// ======================================= //
 	// newCurl() → Abstract kind ( curl_handle )
 	private static var	newCurl = neko.Lib.load("curl_wrap","newCurl",0);
 	// setWriteCallbackHandler( curl_handle, hfunc, bfunc, data ) → Void
-	private static var	setWriteCallbackHandler = 
+	private static var	setWriteCallbackHandler =
 						neko.Lib.load("curl_wrap","setWriteCallbackHandler",4);
 	// setUrl( curl_handle, url:neko_string ) → Bool
 	private static var	setUrl = neko.Lib.load("curl_wrap","setUrl",2);
+	// setPostdata( curl_handle, string:neko_string ) → Bool
+	private static var	setPostdata = neko.Lib.load("curl_wrap","setPostdata",2);
 	// makeRequest( curl_handle ) → Bool
 	private static var makeRequest =neko.Lib.load("curl_wrap","makeRequest",1);
 	// makeRequest( curl_handle ) → Bool
