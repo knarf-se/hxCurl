@@ -74,6 +74,9 @@ class Curl {
 	public function setPostData( data:String ) : Void {
 		setPostdata( curl_handle, Lib.haxeToNeko( data ));
 	}
+	public function setHttpHeaders( data:Array<String> ) : Void {
+		setHttpheaders( curl_handle, Lib.haxeToNeko( data ));
+	}
 	function set_ua( agent:String ) {
 		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
 		return agent;
@@ -125,6 +128,8 @@ class Curl {
 	private static var	setUrl = neko.Lib.load("curl_wrap","setUrl",2);
 	// setPostdata( curl_handle, string:neko_string ) → Bool
 	private static var	setPostdata = neko.Lib.load("curl_wrap","setPostdata",2);
+	// setHeaders( curl_handle, data:neko_array/pointer ) → Bool
+	private static var	setHttpheaders = neko.Lib.load("curl_wrap","setHeaders",2);
 	// makeRequest( curl_handle ) → Bool
 	private static var makeRequest =neko.Lib.load("curl_wrap","makeRequest",1);
 	// makeRequest( curl_handle ) → Bool
