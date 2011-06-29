@@ -42,13 +42,15 @@ build_tools()
 }
 
 run_tests()
-{	# 
+{	# assumes CWD is root of package
 	echo "→ Building Unittests"
 	cd tests
 		haxe Compile.hxml
+		cp Server.js ../tmp/Server.js
 	cd ../tmp
 		cp $system/curl_wrap.ndll curl_wrap.ndll
-		neko run_tests.n
+		echo "→ Running Unittests"
+		node Server.js
 	cd ..
 }
 
@@ -75,7 +77,8 @@ make_release()
 generate_documentation()
 {	# Invoke gendoc script
 	#sh -c "./gendoc"
-	echo "nop"
+	haxe Curl -cp curl -xml tmp/docs.xml
+	# chxdoc [...]
 }
 
 make_clean()
