@@ -1,0 +1,14 @@
+#We doesn't want to commit any kind binary file, like chxdoc binaries. I believe
+# that scm tools don't cope well with this kind of files. And files that is
+# built from the sourcefiles are really unnecisary to include.
+
+# chxdoc binaries
+chxdoc
+temploc
+
+dist
+tmp
+docs/reference
+
+# I hate the mess it causes...
+*.svn

@@ -24,6 +24,7 @@ import neko.Lib;
 
 /**
 	A simple binding of the famous library libCurl for haXe
+	@requires neko, libcurl and curl_wrap.ndll
 **/
 class Curl {
 	var curl_handle:Dynamic;
@@ -35,6 +36,7 @@ class Curl {
 		The useragent that you will indentify your application as.
 	**/
 	public var agent(default,set_ua)	: String;
+
 	/**
 		Set a new URL to use.
 	**/
@@ -51,9 +53,18 @@ class Curl {
 		}
 		setup_callbacks();
 	}
+
+	/**
+		This function is intended for situations when you does not want to
+		stick around waiting for the request to completed, or in situations
+		when it (almost) never completes (Streaming). Not implemented yet.
+
+		@todo implement the function
+	**/
 	public dynamic function onData( data : String ) : Void {
 
 	}
+
 	/**
 		Should be replaced with error handling code, the default one throws an
 		Exception.
@@ -61,28 +72,53 @@ class Curl {
 	public dynamic function onError( msg : String ) : Void {
 		throw msg;
 	}
+
 	/**
-		Make the actual request that you have set up.
+		Make the actual request that you have set up on the Curl object.
 	**/
 	public function action() {
 		return makeRequest( curl_handle );
 	}
-	function set_url( url:String ) {
-		setUrl( curl_handle, Lib.haxeToNeko( url ));
-		return url;
-	}
+
+	/**
+		Set the data that is to be sent in a POST-request
+	**/
 	public function setPostData( data:String ) : Void {
 		setPostdata( curl_handle, Lib.haxeToNeko( data ));
 	}
+
+	/**
+		Set the HTTP headers
+	**/
 	public function setHttpHeaders( data:Array<String> ) : Void {
 		setHttpheaders( curl_handle, Lib.haxeToNeko( data ));
 	}
+
 	function set_ua( agent:String ) {
 		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
 		return agent;
 	}
+
+	/**
+		Get the data that has been recieved soo far.
+	**/
 	public function get_data() {
 		return body;
+	}
+
+	/**
+		Do a simple fetch of a single file by it's URL, good to use
+		if your application only fetches a file or two.
+
+		Do NOT use this if your application fetches more
+		than a very 'small' amount of files!
+	**/
+	public static function simple_fetch( url ) : String
+	{	// creates a new instance and sets it up for one download.
+		var curl = new Curl( url );
+		curl.agent = "test/0.1";
+		curl.action();
+		return curl.get_data();
 	}
 
 	//	===	===	===
@@ -102,19 +138,10 @@ class Curl {
 	static function body_callback( self, data ) {
 		self.body += Lib.nekoToHaxe(data);
 	}
-	/**
-		Do a simple fetch of a single file by it's URL, good to use
-		if your application only fetches a file or two.
 
-		Do NOT use this if your application fetches more
-		than a very 'small' amount of files!
-	**/
-	public static function simple_fetch( url ) : String
-	{	// creates a new instance and sets it up for one download.
-		var curl = new Curl( url );
-		curl.agent = "test/0.1";
-		curl.action();
-		return curl.get_data();
+	function set_url( url:String ) {
+		setUrl( curl_handle, Lib.haxeToNeko( url ));
+		return url;
 	}
 
 	// Import of functions exposed by the ndll \\

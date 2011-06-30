@@ -5,5 +5,16 @@ then
 else
 	targetd="$1"
 fi
-haxe -xml $targetd/haxedoc.xml -cp curl Curl.hx
+#We are using chxdoc to generate API documentation from the sourcecode.
+#Assuming it is installed in base directory of hxCurl (With temploc)
+echo "→ Generating API reference documentation"
+if [ -f "chxdoc" ]
+then
+	rm -rf docs/reference
+	haxe -neko tmp/dummy.n -xml $targetd/haxedoc.xml -main docs.Dummy
+	PATH=.:$PATH ./chxdoc -o docs/reference --developer=true \
+	-f docs -f haxe -f neko $targetd/haxedoc.xml
+else
+	echo "	Did not find chxdoc, won't generate API reference documentation"
+fi
 

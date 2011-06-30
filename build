@@ -33,7 +33,7 @@ build_ndll()
 	gcc -lcurl -shared -Wl,-soname,libcurl_wrap.so \
 			-o tmp/libcurl_wrap.so tmp/curlw.o
 	sh -c "mv tmp/libcurl_wrap.so tmp/$system/curl_wrap.ndll" || exit 1
-	echo "Successfully created Neko FFI module 'curl_wrap.ndll'"
+	echo "	Successfully created Neko FFI module 'curl_wrap.ndll'"
 }
 
 build_tools()
@@ -49,7 +49,7 @@ run_tests()
 		cp Server.js ../tmp/Server.js
 	cd ../tmp
 		cp $system/curl_wrap.ndll curl_wrap.ndll
-		echo "→ Running Unittests"
+		echo "	→ Running Unittests"
 		node Server.js
 	cd ..
 }
@@ -67,8 +67,13 @@ make_release()
 	cp -r curl $targetd/
 	cp haxelib.xml $targetd/haxelib.xml
 	cd dist
-		7z a -tzip release.zip release > 7z.log
-		haxelib test release.zip
+		if command -v 7z &>/dev/null; then
+			7z a -tzip release.zip release > 7z.log
+			haxelib test release.zip
+		else
+			echo "	Did not find 7z - release packacke won't be assembled"
+			echo "	You can try to do it manually or install p7zip-full"
+		fi
 	cd ..
 }
 
@@ -76,9 +81,7 @@ make_release()
 # 
 generate_documentation()
 {	# Invoke gendoc script
-	#sh -c "./gendoc"
-	haxe Curl -cp curl -xml tmp/docs.xml
-	# chxdoc [...]
+	sh -c "./gendoc"
 }
 
 make_clean()
