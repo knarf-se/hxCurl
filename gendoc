@@ -12,7 +12,7 @@ if [ -f "chxdoc" ]
 then
 	rm -rf docs/reference
 	haxe -neko tmp/dummy.n -xml $targetd/haxedoc.xml -main docs.Dummy
-	PATH=.:$PATH ./chxdoc -o docs/reference --developer=true \
+	PATH=.:$PATH ./chxdoc -o docs/reference \ #--developer=true \
 	-f docs -f haxe -f neko $targetd/haxedoc.xml
 else
 	echo "	Did not find chxdoc, won't generate API reference documentation"
