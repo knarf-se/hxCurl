@@ -9,9 +9,9 @@ implemented yet, most notable the feature of documentation.
 ⁂
 
 If you want to get an API reference, type the following on the terminal (as root):
-$ `haxelib install chxdoc`
-$ `haxelib run chxdoc install`
-$ `./build doc`
+$ `haxelib install chxdoc`  
+$ `haxelib run chxdoc install`  
+$ `./build doc`  
 
 And the API documentation will be generated and placed in
 `hxCurl/docs/reference/index.html`.
