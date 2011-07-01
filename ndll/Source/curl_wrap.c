@@ -60,7 +60,8 @@ value newCurl ()
 	return ak_curl;
 }	DEFINE_PRIM(newCurl,0);
 
-value setUrl ( value curl_handle, value url ) {
+value setUrl ( value curl_handle, value url )
+{	// Set the URL to use for the request
 	val_check_kind( curl_handle, k_curlHandle );
 	val_match_or_fail( url, string );
 
