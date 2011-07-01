@@ -44,7 +44,11 @@ class Curl {
 	//var async
 
 	/**
-		Creates a new Curl object, possible with URL and async mode set.
+		Creates a new Curl object, possible with URL and async mode set. Please
+		reuse the same Curl object for added effiency (using persistent
+		  connections wherever possible).
+
+		DO NOT use the same Curl object from different threads.
 	**/
 	public function new( ?url, ?async:Bool ) {
 		curl_handle = newCurl();
@@ -94,11 +98,6 @@ class Curl {
 		setHttpheaders( curl_handle, Lib.haxeToNeko( data ));
 	}
 
-	function set_ua( agent:String ) {
-		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
-		return agent;
-	}
-
 	/**
 		Get the data that has been recieved soo far.
 	**/
@@ -142,6 +141,11 @@ class Curl {
 	function set_url( url:String ) {
 		setUrl( curl_handle, Lib.haxeToNeko( url ));
 		return url;
+	}
+
+	function set_ua( agent:String ) {
+		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
+		return agent;
 	}
 
 	// Import of functions exposed by the ndll \\
