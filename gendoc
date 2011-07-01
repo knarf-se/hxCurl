@@ -10,6 +10,8 @@ fi
 echo "→ Generating API reference documentation"
 if [ -f "chxdoc" ]
 then
+	mkdir tmp
+	mkdir dist/release
 	rm -rf docs/reference
 	haxe -neko tmp/dummy.n -xml $targetd/haxedoc.xml -main docs.Dummy
 	PATH=.:$PATH ./chxdoc -o docs/reference \ #--developer=true \
