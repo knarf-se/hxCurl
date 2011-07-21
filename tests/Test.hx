@@ -1,12 +1,12 @@
 /*
-	Testing of the hxCurl functionality
+	(simple and naïve) Testing of the hxCurl functionality
 */
 import curl.Curl;
 import neko.Lib;
 import neko.Sys;
 
 class Test {
-	
+
 	public static function main() {
 		// Write a welcome message that explains what this is doing
 		/*
@@ -18,11 +18,11 @@ class Test {
 		*/
 		// This is an unusual way to testcases for me, oh well.
 		var r = new haxe.unit.TestRunner();
-		
-		r.add(new TestCurl());
-		
+
+		r.add( new TestCurl() );
+
 		r.run();
-		
+
 		return 0;
 	}
 }
@@ -33,7 +33,7 @@ class Test {
 class TestCurl extends haxe.unit.TestCase {
 	// You might want to change this
 	static var xmp_url = "http://git.knarf.se/hxcurltestfile";
-	static var server = "http://127.0.0.1:1337/";
+	static var server = "http://127.0.0.1:1337";
 
 	/**
 		Test the [Curl.simple_fetch] function against local Server.js
@@ -41,8 +41,29 @@ class TestCurl extends haxe.unit.TestCase {
 	function testSimpleFetchLocally() {
 		var text = Curl.simple_fetch( server );
 		assertTrue( text == "Hello World\n" );
-		//Lib.println( text );
 	}
+
+	/**
+		Test the [Curl.setPostData] function against local Server.js
+	**/
+	function testSimplePostLocally() {
+		var curl = new Curl( server + "/post" );
+		var data = "→ Post test 123 ←";
+		curl.setPostData( data );
+		curl.action();
+		assertTrue( curl.get_data() == data );
+	}
+
+	/**
+		Test the [Curl.setHttpHeaders] function against local Server.js
+	**/
+	function testSetHttpHeaders() {
+		var curl = new Curl( server + "/head" );
+		var headers : Array<String> = new Array();
+		headers.push( "Content-type: text/xml;charset=\"utf-8\"" );
+		curl.setHttpHeaders( headers );
+		curl.action();
+		assertTrue( curl.get_data() == "ok" );
 
 	/**
 		Test the [Curl.simple_fetch] function
