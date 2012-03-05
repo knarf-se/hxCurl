@@ -6,4 +6,3 @@ else
 	targetd="$1"
 fi
 haxe -xml $targetd/haxedoc.xml -cp curl Curl.hx
-

@@ -10,6 +10,7 @@ http.createServer(function (req, res) {
 	res.writeHead(200, {'Content-Type': 'text/plain'});
 	switch(req.url){
 		case '/post':
+			// Act like an echo command
 			req.on('data', function(chunk) {
 				res.write(chunk);
 			});
@@ -19,6 +20,8 @@ http.createServer(function (req, res) {
 			});
 			break;
 		case '/head':
+			// Check that the incoming request states that its payload is
+			// text/xml encoded with UTF-8 encoding
 			if (req.headers['content-type'] == 'text/xml;charset="utf-8"')
 				res.end('ok');
 			else

@@ -23,10 +23,9 @@ import neko.Lib;
 import neko.Sys;
 
 /**
-	This class serves the purpose of enabling a user to easily build the ndll 
-	that is specific for their system. Right now it is very simple and may or 
+	This class serves the purpose of enabling a user to easily build the ndll
+	that is specific for their system. Right now it is very simple and may or
 	may not work in all cases, any kind of error handling is abscent...
-	
 **/
 class Build {
 	public static function main()
@@ -37,9 +36,6 @@ class Build {
 	}
 	function new()
 	{	// Create a new instance of the Build class/system
-		
-		// kinda Backwards of English =)
-		// I like to say `Run this!'.
 		this.run();
 	}
 	/*	ToDo: *	Improve errorhandling of this "buildsystem".
@@ -52,7 +48,7 @@ class Build {
 		Sys.command( "cd ndll/Source" );
 		Sys.command( "mkdir -p ../" + Sys.systemName() );
 		Sys.command( "gcc -c -fPIC curl_wrap.c -o curlw.o" );
-		Sys.command( "gcc -lcurl -shared -Wl,-soname,libcurl_wrap.so -o " + 
+		Sys.command( "gcc -lcurl -shared -Wl,-soname,libcurl_wrap.so -o " +
 				"libcurl_wrap.so curlw.o" );
 		Sys.command( "mv libcurl_wrap.so ../" +
 				Sys.systemName() + "/curl_wrap.ndll" );

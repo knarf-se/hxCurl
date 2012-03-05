@@ -23,7 +23,6 @@
 #include <stdlib.h>
 // Curl related stuff
 #include <curl/curl.h>
-#include <curl/types.h>
 #include <curl/easy.h>
 // NekoVM related stuff
 #include <neko.h>
@@ -59,7 +58,9 @@ value newCurl ()
 
 	return ak_curl;
 }	DEFINE_PRIM(newCurl,0);
-
+/**
+	Set the URL to use for the request
+**/
 value setUrl ( value curl_handle, value url ) {
 	val_check_kind( curl_handle, k_curlHandle );
 	val_match_or_fail( url, string );

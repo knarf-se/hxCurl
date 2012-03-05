@@ -43,6 +43,10 @@ class Curl {
 
 	/**
 		Creates a new Curl object, possible with URL and async mode set.
+		Please reuse the same Curl object for added effiency (using
+			persistent connections wherever possible).
+
+		DO NOT use the same Curl object from different threads.
 	**/
 	public function new( ?url, ?async:Bool ) {
 		curl_handle = newCurl();
@@ -51,6 +55,13 @@ class Curl {
 		}
 		setup_callbacks();
 	}
+	/**
+		This function is intended for situations when you does not want to
+		stick around waiting for the request to completed, or in situations
+		when it (almost) never completes (Streaming). Not implemented yet.
+
+		@todo implement the function
+	**/
 	public dynamic function onData( data : String ) : Void {
 
 	}
@@ -67,22 +78,41 @@ class Curl {
 	public function action() {
 		return makeRequest( curl_handle );
 	}
-	function set_url( url:String ) {
-		setUrl( curl_handle, Lib.haxeToNeko( url ));
-		return url;
-	}
+
+	/**
+		Set the data that is to be sent in a POST-request
+	**/
 	public function setPostData( data:String ) : Void {
 		setPostdata( curl_handle, Lib.haxeToNeko( data ));
 	}
+
+	/**
+		Set the HTTP headers
+	**/
 	public function setHttpHeaders( data:Array<String> ) : Void {
 		setHttpheaders( curl_handle, Lib.haxeToNeko( data ));
 	}
-	function set_ua( agent:String ) {
-		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
-		return agent;
-	}
+
+	/**
+		Get the data that has been recieved soo far.
+	**/
 	public function get_data() {
 		return body;
+	}
+
+	/**
+		Do a simple fetch of a single file by it's URL, good to use
+		if your application only fetches a file or two.
+
+		Do NOT use this if your application fetches more
+		than a very 'small' amount of files!
+	**/
+	public static function simple_fetch( url ) : String
+	{	// creates a new instance and sets it up for one download.
+		var curl = new Curl( url );
+		curl.agent = "test/0.1";
+		curl.action();
+		return curl.get_data();
 	}
 
 	//	===	===	===
@@ -102,19 +132,15 @@ class Curl {
 	static function body_callback( self, data ) {
 		self.body += Lib.nekoToHaxe(data);
 	}
-	/**
-		Do a simple fetch of a single file by it's URL, good to use
-		if your application only fetches a file or two.
 
-		Do NOT use this if your application fetches more
-		than a very 'small' amount of files!
-	**/
-	public static function simple_fetch( url ) : String
-	{	// creates a new instance and sets it up for one download.
-		var curl = new Curl( url );
-		curl.agent = "test/0.1";
-		curl.action();
-		return curl.get_data();
+	function set_url( url:String ) {
+		setUrl( curl_handle, Lib.haxeToNeko( url ));
+		return url;
+	}
+
+	function set_ua( agent:String ) {
+		setUserAgent( curl_handle, Lib.haxeToNeko( agent ));
+		return agent;
 	}
 
 	// Import of functions exposed by the ndll \\
@@ -137,4 +163,3 @@ class Curl {
 	// enableCookies( curl_handle, cookie_file:neko_string ) ↓ Void
  private static var enableCookies=neko.Lib.load("curl_wrap","enableCookies",2);
 }
-

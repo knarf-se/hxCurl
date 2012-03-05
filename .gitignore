@@ -1,0 +1,4 @@
+.ndll
+dist/
+tmp/
+.o
