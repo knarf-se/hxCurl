@@ -1,3 +1,11 @@
+/*
+	hxCurl version 0.1  ---  a binding of libCurl for haXe.
+	Copyright ©2011  Frank M. Eriksson  < http://knarf.se/ >
+
+	This software is free software: you can redistribute it and/or modify
+	it under the terms of the MIT license, please see file “COPYING” or
+	http://opensource.org/licenses/mit-license.php
+*/
 // A local server to use with the unit tests.
 var fs = require('fs'),
 	child_process = require('child_process'),

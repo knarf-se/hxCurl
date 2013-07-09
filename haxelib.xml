@@ -1,4 +1,4 @@
-<project name="curl" url="https://www.ohloh.net/p/hxCurl" license="GPL">
+<project name="curl" url="https://www.ohloh.net/p/hxCurl" license="MIT">
 	<user name="knarf"/>
 	<tag v="neko"/>
 	<tag v="api"/>

@@ -3,20 +3,8 @@
 	Copyright ©2011  Frank M. Eriksson  < http://knarf.se/ >
 
 	This software is free software: you can redistribute it and/or modify
-	it under the terms of the Perl Foundation Artistic License 2.0 and
-	under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This software is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License and
-	the Perl Foundation Artistic License in a file named ``COPYING'' along
-	with this software.  If not, see <http://www.gnu.org/licenses/> and
-	<http://opensource.org/licenses/artistic-license-2.0>.
+	it under the terms of the MIT license, please see file “COPYING” or
+	http://opensource.org/licenses/mit-license.php
 ***/
 
 package curl;
@@ -80,20 +68,6 @@ class Curl {
 	}
 
 	/**
-		Set the data that is to be sent in a POST-request
-	**/
-	public function setPostData( data:String ) : Void {
-		setPostdata( curl_handle, Lib.haxeToNeko( data ));
-	}
-
-	/**
-		Set the HTTP headers
-	**/
-	public function setHttpHeaders( data:Array<String> ) : Void {
-		setHttpheaders( curl_handle, Lib.haxeToNeko( data ));
-	}
-
-	/**
 		Get the data that has been recieved soo far.
 	**/
 	public function get_data() {
@@ -152,10 +126,6 @@ class Curl {
 						neko.Lib.load("curl_wrap","setWriteCallbackHandler",4);
 	// setUrl( curl_handle, url:neko_string ) → Bool
 	private static var	setUrl = neko.Lib.load("curl_wrap","setUrl",2);
-	// setPostdata( curl_handle, string:neko_string ) → Bool
-	private static var	setPostdata = neko.Lib.load("curl_wrap","setPostdata",2);
-	// setHeaders( curl_handle, data:neko_array/pointer ) → Bool
-	private static var	setHttpheaders = neko.Lib.load("curl_wrap","setHeaders",2);
 	// makeRequest( curl_handle ) → Bool
 	private static var makeRequest =neko.Lib.load("curl_wrap","makeRequest",1);
 	// makeRequest( curl_handle ) → Bool

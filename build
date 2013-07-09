@@ -3,20 +3,8 @@
 #	Copyright ©2011  Frank M. Eriksson  < http://knarf.se/ >
 #
 #	This software is free software: you can redistribute it and/or modify
-#	it under the terms of the Perl Foundation Artistic License 2.0 and 
-#	under the terms of the GNU General Public License as published by
-#	the Free Software Foundation, either version 3 of the License, or
-#	(at your option) any later version.
-#
-#	This software is distributed in the hope that it will be useful,
-#	but WITHOUT ANY WARRANTY; without even the implied warranty of
-#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#	GNU General Public License for more details.
-#
-#	You should have received a copy of the GNU General Public License and 
-#	Perl Foundation Artistic License in a file named ``COPYING'' along 
-#	with this software.  If not, see <http://www.gnu.org/licenses/> and
-#	<http://opensource.org/licenses/artistic-license-2.0>.
+#	it under the terms of the MIT license, please see file “COPYING” or
+#	http://opensource.org/licenses/mit-license.php
 #
 
 system=`uname`

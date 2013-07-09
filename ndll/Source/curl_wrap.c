@@ -3,20 +3,8 @@
 	Copyright ©2011  Frank M. Eriksson  < http://knarf.se/ >
 
 	This software is free software: you can redistribute it and/or modify
-	it under the terms of the Perl Foundation Artistic License 2.0 and
-	under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This software is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License and
-	Perl Foundation Artistic License in a file named ``COPYING'' along
-	with this software.  If not, see <http://www.gnu.org/licenses/> and
-	<http://opensource.org/licenses/artistic-license-2.0>.
+	it under the terms of the MIT license, please see file “COPYING” or
+	http://opensource.org/licenses/mit-license.php
 ***/
 
 // for malloc
@@ -71,44 +59,6 @@ value setUrl ( value curl_handle, value url ) {
 
 	return val_true;
 }	DEFINE_PRIM(setUrl,2);
-
-value setPostdata ( value curl_handle, value data ) {
-	val_check_kind( curl_handle, k_curlHandle );
-	val_match_or_fail( data, string );
-
-	curl_easy_setopt( val_data( curl_handle ),
-					CURLOPT_POST, CURLOPT_POSTFIELDSIZE );
-	curl_easy_setopt( val_data( curl_handle ),
-					CURLOPT_POSTFIELDS, val_string(data) );
-
-	return val_true;
-}	DEFINE_PRIM(setPostdata,2);
-
-value setHeaders ( value curl_handle, value data ) {
-	struct curl_slist * header_list = NULL;
-	value * p_arr;
-	int i;
-	if(val_is_array(data))
-	{
-		p_arr = val_array_ptr(data);
-		for (i = 0; i < val_array_size(data); i++)
-		{
-			if(val_is_string(p_arr[i]))
-			{
-				printf("headers array item #%i = %s\n", i, val_string(p_arr[i]));
-				header_list = curl_slist_append(header_list, val_string(p_arr[i]));
-				//header_list = curl_slist_append(header_list, "Content-type: text/json;charset=\"utf-8\"");
-			}
-			else
-			{
-				printf("non-string item value found in headers array at item #%i\n", i);
-			}
-		}
-	}
-	curl_easy_setopt( val_data( curl_handle ),
-					CURLOPT_HTTPHEADER, header_list );
-	return val_true;
-}	DEFINE_PRIM(setHeaders,2);
 
 // This is needed so that we know what do when libCurl calls us
 typedef struct _WriteCallbackData {
